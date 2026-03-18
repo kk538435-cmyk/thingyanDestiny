@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thingyan Destiny</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Myanmar:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --padauk-gold: #ffd54a;
+      --glass: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.14);
+      --shadow-md: 0 10px 24px rgba(8, 24, 54, 0.10);
+      --reveal-image: none;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Noto Serif Myanmar", sans-serif;
+      margin: 0;
+      overflow: hidden;
+      color: white;
+      background:
+        linear-gradient(rgba(8, 18, 40, 0.14), rgba(8, 18, 40, 0.20)),
+        url("./assets/thingyanbg.webp");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(255, 255, 255, 0.02),
+          rgba(0, 0, 0, 0.06));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ripple-container {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .fx-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      padding: 16px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 24px rgba(8, 24, 54, 0.10);
+    }
+
+    .hero {
+      text-align: center;
+      margin-top: 4px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 21px;
+      color: rgba(255, 255, 255, 0.94);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 11vw, 3.6rem);
+      line-height: 0.95;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin: 0;
+      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-title span {
+      color: #ffe16c;
+    }
+
+    .hero-subtitle {
+      margin: 12px auto 0;
+      max-width: 320px;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .subtitle-highlight {
+      display: block;
+      margin-top: 15px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffd54a;
+      line-height: 1.3;
+    }
+
+    .stage {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 8;
+      margin-top: 8px;
+    }
+
+    .stage-card {
+      width: 100%;
+      min-height: 380px;
+      border-radius: 24px;
+      padding: 18px 14px 16px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .stage-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08), transparent 28%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.00));
+      pointer-events: none;
+    }
+
+    .stage-label {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 2;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.92);
+      text-transform: uppercase;
+    }
+
+    .scene {
+      width: 100%;
+      height: 250px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 18px;
+      z-index: 2;
+    }
+
+    .scene-floor {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 42px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 48%, transparent 100%);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .bowl-stage {
+      position: relative;
+      width: 260px;
+      height: 210px;
+      overflow: hidden;
+    }
+
+    .bowl-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .bowl-wrap {
+      position: relative;
+      width: 220px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: bowlFloat 3.4s ease-in-out infinite;
+    }
+
+    .bowl-wrap.static {
+      animation: none;
+    }
+
+    .bowl-wrap.end-shake {
+      animation: bowlShake 0.12s ease-in-out 4;
+    }
+
+    .bowl-img {
+      width: 210px;
+      height: 170px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      filter: none;
+    }
+
+    .steam {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .steam-line {
+      width: 4px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.72));
+      animation: steamRise 2.2s infinite ease-out;
+      opacity: 0;
+    }
+
+    @keyframes steamRise {
+      0% {
+        transform: translateY(0) scaleX(1);
+        opacity: 0;
+      }
+
+      25% {
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translateY(-34px) scaleX(1.8);
+        opacity: 0;
+      }
+    }
+
+    @keyframes bowlFloat {
+      0%, 100% {
+        transform: translateY(0px) rotateZ(0deg);
+      }
+
+      50% {
+        transform: translateY(-8px) rotateZ(-1deg);
+      }
+    }
+
+    @keyframes bowlShake {
+      0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-1px) scale(1.015) rotate(-1deg);
+      }
+
+      50% {
+        transform: translateY(0) scale(0.995) rotate(1deg);
+      }
+
+      75% {
+        transform: translateY(-1px) scale(1.01) rotate(-0.6deg);
+      }
+
+      100% {
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+    }
+
+    .controls {
+      position: relative;
+      z-index: 3;
+      margin-top: 8px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .spin-btn {
+      position: relative;
+      min-width: 0;
+      width: 100%;
+      max-width: 320px;
+      min-height: 58px;
+      padding: 16px 22px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #0b7db1;
+      font-size: 0.98rem;
+      font-weight: 800;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .spin-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    .spin-btn-text {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      transform: translateY(1px);
+      white-space: nowrap;
+    }
+
+    .spin-btn-icon {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 22px;
+    }
+
+    .spin-btn-icon svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+
+    .spin-btn.is-loading .spin-btn-text {
+      min-width: 16ch;
+    }
+
+    .spin-btn.pulse-ring::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 2px solid rgba(74, 216, 255, 0.9);
+      animation: splashGlow 2s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes splashGlow {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.18);
+        opacity: 0;
+      }
+    }
+
+    .footer-note {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.82);
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin-top: 14px;
+    }
+
+    .ripple {
+      position: absolute;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleEffect 4s infinite cubic-bezier(0, 0.2, 0.8, 1);
+    }
+
+    @keyframes rippleEffect {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .padauk-flower {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      z-index: 2;
+      opacity: 0.9;
+      pointer-events: none;
+      background-image: url("./assets/padauk-petal.webp");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.28));
+    }
+
+    .reveal-ball {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 76px;
+      height: 76px;
+      transform: translate(-50%, -50%);
+      z-index: 60;
+      display: none;
+      background-image: var(--reveal-image);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: transparent;
+    }
+
+    #modalOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 14, 31, 0.48);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.32s ease;
+    }
+
+    #modalOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #destinyModal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 100;
+      width: min(92vw, 420px);
+      border-radius: 28px;
+      padding: 24px 18px 18px;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -46%) scale(0.92);
+      transition: opacity 0.36s ease, transform 0.36s cubic-bezier(0.175, 0.885, 0.32, 1.18);
+    }
+
+    #destinyModal.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal-icon {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      padding: 8px;
+    }
+
+    .modal-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .modal-text {
+      margin: 14px 0 20px;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.94);
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 0.96rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #1d74f5;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.14);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    @media (min-width: 768px) {
+      .app-shell {
+        max-width: 1100px;
+        padding: 32px 20px 24px;
+      }
+
+      .hero-title {
+        font-size: clamp(3.2rem, 6vw, 4.8rem);
+      }
+
+      .hero-subtitle {
+        max-width: 620px;
+        font-size: 1.05rem;
+      }
+
+      .stage-card {
+        width: min(100%, 760px);
+        min-height: 430px;
+        border-radius: 34px;
+        padding: 24px 24px 20px;
+      }
+
+      .scene {
+        height: 330px;
+        margin-top: 30px;
+      }
+
+      .scene-floor {
+        width: 280px;
+        height: 56px;
+      }
+
+      .bowl-stage {
+        width: 360px;
+        height: 240px;
+      }
+
+      .bowl-wrap {
+        width: 280px;
+        height: 220px;
+      }
+
+      .bowl-img {
+        width: 270px;
+        height: 220px;
+      }
+
+      .reveal-ball {
+        width: 82px;
+        height: 82px;
+      }
+
+      .spin-btn {
+        max-width: 360px;
+        min-height: 62px;
+        font-size: 1.02rem;
+        gap: 12px;
+      }
+
+      .footer-note {
+        font-size: 0.9rem;
+      }
+
+      #destinyModal {
+        width: min(92vw, 460px);
+        border-radius: 32px;
+        padding: 28px 24px 24px;
+      }
+
+      .modal-icon {
+        width: 92px;
+        height: 92px;
+        border-radius: 22px;
+        padding: 10px;
+      }
+
+      .modal-title {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ripple-container" id="rippleBox"></div>
+  <div class="fx-layer" id="fxLayer"></div>
+
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-badge glass-card">
+        <span>Thingyan Festival Fortune Experience</span>
+      </div>
+
+      <h1 class="hero-title">
+        Thingyan <span>Destiny</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        မုန့်လုံးရေပေါ်က ပြောတဲ့ ဒီနှစ်အတွက် သင့်ရဲ့
+        <p class="subtitle-highlight">ကံကြမ္မာ</p>
+      </p>
+    </header>
+
+    <main class="stage">
+      <section class="stage-card glass-card">
+        <div class="stage-label">Fortune Bowl Spinner</div>
+
+        <div class="scene">
+          <div class="scene-floor"></div>
+
+          <div class="bowl-stage">
+            <div class="bowl-layer" id="currentLayer">
+              <div class="bowl-wrap" id="currentWrap">
+                <div class="steam">
+                  <div class="steam-line" style="animation-delay: 0s"></div>
+                  <div class="steam-line" style="animation-delay: 0.22s"></div>
+                  <div class="steam-line" style="animation-delay: 0.44s"></div>
+                </div>
+                <img id="currentBowl" class="bowl-img" src="" alt="Current bowl" draggable="false" />
+              </div>
+            </div>
+
+            <div class="bowl-layer" id="nextLayer">
+              <div class="bowl-wrap static">
+                <div class="steam">
+                  <div class="steam-line" style="animation-delay: 0s"></div>
+                  <div class="steam-line" style="animation-delay: 0.22s"></div>
+                  <div class="steam-line" style="animation-delay: 0.44s"></div>
+                </div>
+                <img id="nextBowl" class="bowl-img" src="" alt="Next bowl" draggable="false" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="spinBtn" class="spin-btn">
+            <span id="btnText" class="spin-btn-text">PREPARING BOWLS...</span>
+            <span class="spin-btn-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                <path d="M22 2v6h-6"></path>
+                <path d="m22 8-4-4"></path>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer-note glass-card">
+      © 2026 Thingyan Festival | Developed by SFIC ❤️
+    </footer>
+  </div>
+
+  <div id="revealBall" class="reveal-ball"></div>
+
+  <div id="destinyModal" class="glass-card">
+    <div class="modal-icon modal-logo-wrap">
+      <img src="./assets/logo.webp" alt="Strategy First Logo" class="modal-logo" />
+    </div>
+
+    <h2 class="modal-title">Your Destiny</h2>
+    <p id="destinyText" class="modal-text">“You will find coolness and peace like the April water.”</p>
+
+    <div class="modal-actions">
+      <button id="shareBtn" class="btn-primary">Share / Copy Blessing</button>
+      <button id="rerollBtn" class="btn-secondary">Reveal Another One</button>
+    </div>
+  </div>
+
+  <div id="modalOverlay"></div>
+
+  <script>
+    const MONT_LONE_IMAGE = "./assets/Montlone.webp";
+    const BOWL_IMAGES = [
+      "./assets/Bowl1.webp",
+      "./assets/Bowl2.webp",
+      "./assets/Bowl3.webp",
+      "./assets/Bowl4.webp",
+      "./assets/Bowl5.webp"
+    ];
+
+    document.documentElement.style.setProperty("--reveal-image", `url("${MONT_LONE_IMAGE}")`);
+
+    const fortunes = [
+      "မနက်ဖြန် မင်းမျက်နှာမှာ ဝက်ခြံအကြီးကြီးတစ်လုံး ထွက်လာပါလိမ့်မယ်။",
+      "ဒီနေ့ မုန့်လုံးရေပေါ်မစားပါနဲ့။ အထဲမှာ ထန်းလျက်အစား ငရုတ်သီးစိမ်း ပါလာပါလိမ့်မယ်။",
+      "သင့်ရဲ့ ဖူးစာရှင်က သင့်အနားမှာပဲ ရှိနေပါတယ်။",
+      "ဝင်လာသမျှငွေတွေက အွန်လိုင်းကနေ မုန့်တွေမှာ စားရင်းနဲ့ ပဲ ကုန်နေပါလိမ့်မယ်။",
+      "ပျောက်ဆုံးနေတဲ့ အရာတစ်ခုကို မကြာခင် ပြန်တွေ့ပါလိမ့်မယ်။",
+      "ဒီနှစ်ထဲမှာ သင့်ရည်းစားဟောင်းကို အမှတ်မထင်ပြန်တွေ့ရကိန်းရှိပါတယ်။",
+      "နောက်သုံးလအတွင်း ကံဇာတာတက်ကိန်းရှိပါတယ် ကြိုက်နေတဲ့ သူရှိရင် အခုပဲ ဖွင့်ပြောလိုက်ပါ။",
+      "ဒီလကုန် သင်ထီ‌ပေါက်ပါလိမ့်မယ်။",
+      "မင်းရဲ့ အနာဂတ်မှာ မင်းရဲ့ Ex က မင်းရဲ့ Boss အဖြစ်နဲ့ ရုံးကို ရောက်လာပါလိမ့်မယ်။",
+      "မနက်ဖြန်အစားစားပြီးရင် သေချာပလုတ်ကျင်းပါ။ သွားကြားမှာ ဟင်းရွက်ဖတ်ကြီးကပ်နေပါလိမ့်မယ်။",
+      "ဒီအပတ်အတွင်း ph အသစ်တစ်လုံးလဲရပါလိမ့်မယ်။",
+      "စိန်တုံးကြီး တစ်တုံးကို လမ်းဘေးတွင် ကောက်ရလိမ့်မည်။",
+      "သင့်ထံသို့ အတိတ်ဘဝက အကြွေးဟောင်းများ ပြန်ရောက်လာလိမ့်မည်။",
+      "နောင် ၅ နှစ်တွင် ကမ္ဘာကျော် ရုပ်ရှင်သရုပ်ဆောင် ဖြစ်လာလိမ့်မည်။",
+      "မင်းဟာ \"အမှိုက်ကောက်ရင်း စိန်တွေ့မယ့်\" ကံရှိပါတယ်။",
+      "နောက် ၂ နှစ်အတွင်း မင်းရဲ့ အနာဂတ်အိမ်ထောင်ဖက်ဟာ နိုင်ငံခြားသား သူဌေးကြီး ဖြစ်လိမ့်မယ်။",
+      "နောက် ၅ နှစ်နေရင် မင်းဟာ ကမ္ဘာ့အချမ်းသာဆုံးစာရင်း ထဲ ပါလာလိမ့်မယ်။",
+      "ငွေဝင်ကြမ်းမယ်၊ ဒါပေမယ့် ထွက်တာလည်းမြန်မယ်။",
+      "နောက်လကျ ပါးချိုင့်နဲ့ ကောင်လေးတစ်ယောက် လာကြိုက်ပါလိမ့်မယ်။",
+      "နှလုံးသား‌ရေးရာမှာ ပထမနေရာကနေ ဒုတိယဆု ရပါလိမ့်မယ်။",
+      "ဒီနှစ်ထဲမှာ သင်ကတုံး တုံးရနိုင်ခြေရှိပါတယ်။",
+      "မနက်ဖြန် အပြင်မထွက်ပါနဲ့။ မင်းရဲ့ ဘောင်းဘီ ဖင်ပြဲပါလိမ့်မယ်။",
+      "နောက် ၂ နှစ်အတွင်း သင် ကမ္ဘာပတ်ရလိမ့်မယ်။",
+      "မနက်ဖြန် သင် အပြင်သွားရင် လမ်းမှာ ဖိနပ်ပြတ်လိမ့်မယ်။",
+      "မျက်မှန်နဲ့ ချစ်စရာကောင်မလေးတစ်ယောက်က သင့်ကိုကြွေနေပါတယ်။",
+      "မနက်ဖြန် သင်အပြင်သွားရင် သင့် Ex နဲ့ လမ်းမှာ ပက်ပင်းတိုးလိမ့်မယ်။",
+      "သင် ပေါင်၅၀ ဝိတ်တက်နိုင်ချေရှိပါတယ်။",
+      "သင့်ရဲ့ အနာဂတ်မှာ \"အရမ်းချမ်းသာတဲ့ လူစိမ်းတစ်ယောက်က သင့်ကို သူ့အမွေတွေ လွှဲပေးလိမ့်မယ်။\"",
+      "နောက် ၃ ရက်အတွင်း သင်အကြိုက်ဆုံး အင်္ကျီမှာ \"ဟင်းရည်စွန်းမယ့်\" ကိန်းရှိပါတယ်။",
+      "သင် အချိုရည်သောက်ရင်း i phone 17 Pro Max ကံထူးဖို့ရှိပါတယ်။",
+      "သင် သိန်း၅၀၀ ကံထူးဖို့ ရှိပါတယ်။",
+      "သင် နောက် ၃ နှစ်နေရင် TikTok မှာ Followers ၁ သန်း ရလိမ့်မယ်။",
+      "ဒီ နှစ်ထဲမှာ သင့် ရည်းစားဦး က \"မင်္ဂလာဆောင်ဖိတ်စာ\" လာပေးဖို့ ဖုန်းဆက်ပါလိမ့်မယ်။",
+      "သင့် ကို လူတစ်ယောက်က အရမ်းလွမ်းနေပါတယ်။",
+      "လမ်းလျှောက်နေစဥ် ခွေးလိုက်ဆွဲ ခံရနိုင်ကိန်းရှိပါတယ်။ အများကြီးသတိထားပါနော်။",
+      "ဒီနှစ် သင်္ကြန်မှာ မုန့်လုံးရေပေါ်စားရင်းနဲ့ ငရုတ်သီးစိမ်း များ ၅ ခုလောက်ဆက်တိုက် ကိုက်ရနိုင်ပါတယ်။",
+      "သင် စိတ်ဝင်စားနေတဲ့ လူတစ်ယောက်ကလည်း သင့်ကို ပြန်စိတ်ဝင်စားနေပါတယ်။",
+      "သင် အသက် ၃၀ လောက်မှာ ကလေးဆယ်ယောက်နဲ့ ဖြစ်နေမှာပါ",
+      "ဒီတခေါက် Assignment မှာ AI 100% ထိနိုင်ခြေရှိပါတယ်။ ဖြစ်နိုင်ခြေ အလွန်မြင့်နေတယ်နော်။",
+      "သင် အလန်းဆုံးပြင်ထားတဲ့နေ့မှာတင် \"မိုးသည်းသည်းမည်းမည်း ရွာပြီး\" ရေစိုမယ့် ဘေးရှိပါတယ်။",
+      "သင့်ရဲ့ အနာဂတ်မှာ \"အချစ်\" ထက် \"ဗိုက်ခေါက်\" က သင့်ဆီကို ပိုမြန်မြန် ရောက်လာပါလိမ့်မယ်။",
+      "သင့် Crush က \"သူ့ Crush အကြောင်း\" တိုင်ပင်ဖို့ သင့်ကို စကားလာပြောလိမ့်မယ်။",
+      "Assignment‌ တွေအားလုံး မှာ plagiarism 50% မိနိုင်ခြေရှိပါတယ်။",
+      "လမ်းသွားရင် သတိထားသွားပါ။ ခွေးချေးတက်နင်းမိပါလိမ့်မယ်။",
+      "မင်းရဲ့ အနာဂတ်မှာ မင်းရဲ့ Fake Account ကို မင်းအမေ တွေ့သွားပြီး \"Follow\" လာလုပ်ပါလိမ့်မယ်။",
+      "ဒီနှစ်ထဲမှာ စိတ်ဝင်စားနေတဲ့ လူအရှေ့မှာ သင် တလွဲတွေ လုပ်ဖြစ်နေပါလိမ့်မယ်။",
+      "သင့် ဖြစ်ချင်တဲ့ ဆန္ဒတစ်ခုကို ဖြစ်အောင်ဖြည့်ဆည်းပေးနိုင်မယ် လူတစ်ယောက် မကြာခင် အနားနားကို ရောက်လာပါလိမ့်မယ်။",
+      "သင်သည် လာမယ့် semister မှာ ဘာသာရပ် အားလုံး ဂုဏ်ထူးထွက် ပါလိမ့်မယ်။",
+      "ကံကောင်းခြင်းတွေက ဒီနှစ်တော့ သင့်ဆီကို ဆိုက်ဆိုက်မြိုက်မြိုက်ရောက်လာ ပါမယ်။ ဒါပေမဲ့ အဖော်မဲ့နေတဲ့ သူလေးတွေအတွက်တော့ မပါသေးပါဘူး။",
+      "ဒီနှစ်ထဲမှာ အရုပ်ကောက်ရင်း မွဲကိန်းရှိပါတယ်။"
+    ];
+
+    const currentLayer = document.getElementById("currentLayer");
+    const nextLayer = document.getElementById("nextLayer");
+    const currentWrap = document.getElementById("currentWrap");
+    const currentBowl = document.getElementById("currentBowl");
+    const nextBowl = document.getElementById("nextBowl");
+    const spinBtn = document.getElementById("spinBtn");
+    const btnText = document.getElementById("btnText");
+    const revealBall = document.getElementById("revealBall");
+    const destinyModal = document.getElementById("destinyModal");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const destinyText = document.getElementById("destinyText");
+    const rerollBtn = document.getElementById("rerollBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const rippleBox = document.getElementById("rippleBox");
+    const fxLayer = document.getElementById("fxLayer");
+
+    let isSpinning = false;
+    let currentIndex = 0;
+    let rippleInterval = null;
+    let flowerInterval = null;
+    const assetCache = new Map();
+
+    const bubbleSynth = window.Tone ? new Tone.MembraneSynth({
+      pitchDecay: 0.05,
+      octaves: 10,
+      oscillator: { type: "sine" }
+    }).toDestination() : null;
+
+    function playBubbleSound() {
+      if (!bubbleSynth || !window.Tone) return;
+      try {
+        const now = Tone.now();
+        bubbleSynth.triggerAttackRelease("C4", "32n", now);
+        bubbleSynth.triggerAttackRelease("E4", "32n", now + 0.08);
+        bubbleSynth.triggerAttackRelease("G4", "32n", now + 0.16);
+      } catch {}
+    }
+
+    function preloadImage(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.onload = async () => {
+          try { await img.decode?.(); } catch {}
+          assetCache.set(url, img);
+          resolve(img);
+        };
+        img.onerror = () => resolve(null);
+        img.src = url;
+      });
+    }
+
+    function preloadImages(urls) {
+      return Promise.all(urls.map(preloadImage));
+    }
+
+    function getCachedSrc(url) {
+      return assetCache.get(url)?.src || url;
+    }
+
+    function resetLayers() {
+      currentLayer.style.transition = "none";
+      nextLayer.style.transition = "none";
+      currentLayer.style.transform = "translateX(0)";
+      currentLayer.style.opacity = "1";
+      nextLayer.style.transform = "translateX(100%)";
+      nextLayer.style.opacity = "0";
+    }
+
+    function initBowlStage() {
+      currentBowl.src = getCachedSrc(BOWL_IMAGES[0]);
+      nextBowl.src = getCachedSrc(BOWL_IMAGES[1]) || getCachedSrc(BOWL_IMAGES[0]);
+      currentIndex = 0;
+      resetLayers();
+    }
+
+    function createRipples() {
+      if (rippleInterval) clearInterval(rippleInterval);
+      rippleInterval = setInterval(() => {
+        const ripple = document.createElement("div");
+        ripple.className = "ripple";
+        const size = Math.random() * 180 + 110;
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+        ripple.style.left = `${Math.random() * 100}%`;
+        ripple.style.top = `${Math.random() * 100}%`;
+        rippleBox.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 4000);
+      }, 1500);
+    }
+
+    function createFlowers() {
+      if (flowerInterval) clearInterval(flowerInterval);
+
+      flowerInterval = setInterval(() => {
+        const flower = document.createElement("div");
+        flower.className = "padauk-flower";
+        flower.style.left = `${Math.random() * 100}%`;
+        flower.style.top = "-40px";
+
+        const size = Math.random() * 12 + 14;
+        flower.style.width = `${size}px`;
+        flower.style.height = `${size}px`;
+
+        const duration = Math.random() * 4 + 5;
+        flower.style.transition = `transform ${duration}s linear, top ${duration}s linear, opacity ${duration}s ease-in`;
+
+        fxLayer.appendChild(flower);
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            flower.style.top = "110vh";
+            flower.style.transform = `rotate(${Math.random() * 360}deg) translateX(${Math.random() * 90 - 45}px)`;
+          }, 80);
+        });
+
+        setTimeout(() => flower.remove(), duration * 1000);
+      }, 900);
+    }
+
+    function getRandomBowlIndex() {
+      return Math.floor(Math.random() * BOWL_IMAGES.length);
+    }
+
+    async function slideToIndex(targetIndex, duration) {
+      nextBowl.src = getCachedSrc(BOWL_IMAGES[targetIndex]);
+
+      nextLayer.style.transition = "none";
+      currentLayer.style.transition = "none";
+      nextLayer.style.transform = "translateX(100%)";
+      nextLayer.style.opacity = "0";
+      currentLayer.style.transform = "translateX(0)";
+      currentLayer.style.opacity = "1";
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+
+      currentLayer.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+      nextLayer.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+
+      currentLayer.style.transform = "translateX(-100%)";
+      currentLayer.style.opacity = "0";
+      nextLayer.style.transform = "translateX(0)";
+      nextLayer.style.opacity = "1";
+
+      await new Promise((resolve) => setTimeout(resolve, duration + 34));
+
+      currentBowl.src = getCachedSrc(BOWL_IMAGES[targetIndex]);
+      currentIndex = targetIndex;
+      resetLayers();
+    }
+
+    function finalShake() {
+      return new Promise((resolve) => {
+        currentWrap.classList.add("end-shake");
+        setTimeout(() => {
+          currentWrap.classList.remove("end-shake");
+          resolve();
+        }, 520);
+      });
+    }
+
+    async function handleSpin() {
+      if (isSpinning || spinBtn.disabled) return;
+      isSpinning = true;
+
+      spinBtn.classList.remove("pulse-ring");
+      btnText.textContent = "SPLASHING...";
+      spinBtn.classList.add("is-loading");
+
+      if (window.Tone) {
+        try { await Tone.start(); } catch {}
+      }
+
+      const totalBowls = BOWL_IMAGES.length;
+      let finalIndex = getRandomBowlIndex();
+
+      if (finalIndex === currentIndex) {
+        finalIndex = (finalIndex + 1) % totalBowls;
+      }
+
+      const sequence = [];
+
+      for (let i = 1; i <= totalBowls; i++) {
+        sequence.push((currentIndex + i) % totalBowls);
+      }
+
+      while (sequence[sequence.length - 1] !== finalIndex) {
+        const last = sequence[sequence.length - 1];
+        sequence.push((last + 1) % totalBowls);
+      }
+
+      for (let i = 0; i < sequence.length; i++) {
+        const targetIndex = sequence[i];
+        const duration = Math.min(240 + i * 55, 520);
+        await slideToIndex(targetIndex, duration);
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 180));
+      playBubbleSound();
+      await finalShake();
+      finishSelection();
+    }
+
+    function finishSelection() {
+      const bowlRect = currentBowl.getBoundingClientRect();
+
+      revealBall.style.display = "block";
+      revealBall.style.transition = "none";
+      revealBall.style.left = `${bowlRect.left + bowlRect.width / 2}px`;
+      revealBall.style.top = `${bowlRect.top + bowlRect.height * 0.34}px`;
+      revealBall.style.transform = "translate(-50%, -50%) scale(0.82)";
+      revealBall.style.opacity = "1";
+
+      requestAnimationFrame(() => {
+        revealBall.style.transition = "all 0.55s cubic-bezier(0.19, 1, 0.22, 1)";
+        revealBall.style.left = "50%";
+        revealBall.style.top = "50%";
+        revealBall.style.transform = "translate(-50%, -50%) scale(2.2)";
+      });
+
+      setTimeout(showModal, 560);
+    }
+
+    function showModal() {
+      const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+      destinyText.textContent = `“${randomFortune}”`;
+
+      modalOverlay.classList.add("active");
+      destinyModal.classList.add("active");
+
+      revealBall.style.opacity = "0";
+
+      setTimeout(() => {
+        revealBall.style.display = "none";
+        revealBall.style.opacity = "1";
+        revealBall.style.transform = "translate(-50%, -50%) scale(1)";
+      }, 260);
+
+      isSpinning = false;
+      btnText.textContent = "READ MY DESTINY";
+      spinBtn.classList.remove("is-loading");
+      spinBtn.classList.add("pulse-ring");
+    }
+
+    function resetApp() {
+      destinyModal.classList.remove("active");
+      modalOverlay.classList.remove("active");
+      revealBall.style.display = "none";
+      revealBall.style.opacity = "1";
+      revealBall.style.transform = "translate(-50%, -50%) scale(1)";
+      currentWrap.classList.remove("end-shake");
+      isSpinning = false;
+      btnText.textContent = "READ MY DESTINY";
+      spinBtn.classList.remove("is-loading");
+      spinBtn.classList.add("pulse-ring");
+    }
+
+    async function shareBlessing() {
+      const text = `I just got my Thingyan Blessing: ${destinyText.textContent} #ThingyanDestiny`;
+
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: "Thingyan Destiny", text });
+        } else if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          flashShareButton("Copied to Clipboard!");
+        } else {
+          fallbackCopy(text);
+          flashShareButton("Copied to Clipboard!");
+        }
+      } catch {
+        fallbackCopy(text);
+        flashShareButton("Copied to Clipboard!");
+      }
+    }
+
+    function fallbackCopy(text) {
+      const el = document.createElement("textarea");
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+
+    function flashShareButton(message) {
+      const original = shareBtn.textContent;
+      shareBtn.textContent = message;
+      setTimeout(() => {
+        shareBtn.textContent = original;
+      }, 1800);
+    }
+
+    spinBtn.addEventListener("click", handleSpin);
+    rerollBtn.addEventListener("click", resetApp);
+    modalOverlay.addEventListener("click", resetApp);
+    shareBtn.addEventListener("click", shareBlessing);
+
+    window.addEventListener("load", async () => {
+      spinBtn.disabled = true;
+      btnText.textContent = "PREPARING BOWLS...";
+      spinBtn.classList.remove("pulse-ring");
+
+      await preloadImages(BOWL_IMAGES);
+
+      initBowlStage();
+      createRipples();
+      createFlowers();
+
+      spinBtn.disabled = false;
+      btnText.textContent = "READ MY DESTINY";
+      spinBtn.classList.add("pulse-ring");
+
+      preloadImages([
+        MONT_LONE_IMAGE,
+        "./assets/padauk-petal.webp",
+        "./assets/logo.webp"
+      ]);
+    });
+  </script>
+</body>
+
+</html>
