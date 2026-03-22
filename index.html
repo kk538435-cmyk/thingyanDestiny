@@ -19,6 +19,8 @@
       --glass-border: rgba(255, 255, 255, 0.14);
       --shadow-md: 0 10px 24px rgba(8, 24, 54, 0.10);
       --reveal-image: none;
+      --premium-shadow: 0 18px 44px rgba(5, 15, 35, 0.22);
+      --premium-soft: 0 10px 30px rgba(255, 255, 255, 0.06) inset;
     }
 
     * {
@@ -55,7 +57,7 @@
       inset: 0;
       background: linear-gradient(to bottom,
           rgba(255, 255, 255, 0.02),
-          rgba(0, 0, 0, 0.06));
+          rgba(0, 0, 0, 0.08));
       pointer-events: none;
       z-index: 0;
     }
@@ -91,8 +93,8 @@
 
     .glass-card {
       background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 10px 24px rgba(8, 24, 54, 0.10);
     }
@@ -144,6 +146,258 @@
       font-weight: 700;
       color: #ffd54a;
       line-height: 1.3;
+    }
+
+    .setup-card {
+      width: 100%;
+      border-radius: 26px;
+      padding: 18px 14px 16px;
+      margin-bottom: 14px;
+      background: rgba(228, 175, 2, 0.055);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .setup-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top center, rgba(255, 255, 255, 0.12), transparent 34%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.00));
+      pointer-events: none;
+    }
+
+    .setup-head {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .setup-kicker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      margin-bottom: 10px;
+    }
+
+    .setup-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .setup-subtitle {
+      margin: 8px auto 0;
+      max-width: 320px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .profile-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-group label {
+      /* font-size: 0.82rem; */
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+      padding-left: 2px;
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: "⌄";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-52%);
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.72);
+      pointer-events: none;
+    }
+
+    .premium-select {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 52px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.07));
+      color: white;
+      padding: 3px 42px 0 14px;
+      outline: none;
+      font-size: 15px;
+      box-shadow: var(--premium-soft);
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    }
+
+    .premium-select:focus {
+      border-color: rgba(255, 213, 74, 0.75);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.09));
+      transform: translateY(-1px);
+    }
+
+    .premium-select option {
+      color: black;
+    }
+
+    .birth-label {
+      font-size: 15px;
+    }
+
+    .status-group {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+    }
+
+    .status-group label.status-title {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 8px;
+      padding-left: 2px;
+    }
+
+    .status-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .status-pill {
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+
+    .status-pill input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .status-pill span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.07));
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.94rem;
+      font-weight: 700;
+      transition: all 0.22s ease;
+      box-shadow: var(--premium-soft);
+    }
+
+    .status-pill:hover span {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.28);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.08));
+    }
+
+    .status-pill input:checked+span {
+      background:
+        linear-gradient(180deg, rgba(255, 213, 74, 0.28), rgba(255, 213, 74, 0.12));
+      border-color: rgba(255, 213, 74, 0.76);
+      color: #ffe16c;
+      box-shadow:
+        0 12px 26px rgba(255, 213, 74, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .setup-actions {
+      position: relative;
+      z-index: 2;
+      margin-top: 16px;
+    }
+
+    .confirm-btn {
+      width: 100%;
+      min-height: 56px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      color: #09243a;
+      background: linear-gradient(180deg, #ffe27b, #ffd54a);
+      box-shadow:
+        0 16px 34px rgba(255, 213, 74, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .confirm-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 20px 40px rgba(255, 213, 74, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .confirm-btn:active {
+      transform: scale(0.98);
+    }
+
+    .confirm-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .hidden-step {
+      display: none;
+    }
+
+    .step-fade {
+      animation: stepFade 0.45s ease;
+    }
+
+    @keyframes stepFade {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .stage {
@@ -302,7 +556,9 @@
     }
 
     @keyframes bowlFloat {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0px) rotateZ(0deg);
       }
 
@@ -600,6 +856,11 @@
         font-size: 1.05rem;
       }
 
+      .setup-card {
+        padding: 20px 18px 18px;
+        margin-bottom: 16px;
+      }
+
       .stage-card {
         width: min(100%, 760px);
         min-height: 430px;
@@ -682,14 +943,75 @@
         Thingyan <span>Destiny</span>
       </h1>
 
-      <p class="hero-subtitle">
+      <div class="hero-subtitle">
         မုန့်လုံးရေပေါ်က ပြောတဲ့ ဒီနှစ်အတွက် သင့်ရဲ့
-        <p class="subtitle-highlight">ကံကြမ္မာ</p>
-      </p>
+        <div class="subtitle-highlight">ကံကြမ္မာ</div>
+      </div>
     </header>
 
     <main class="stage">
-      <section class="stage-card glass-card">
+      <section class="setup-card glass-card step-fade" id="setupStep">
+        <div class="setup-head">
+          <div class="setup-kicker">Step 1 / Personalize</div>
+          <h3 class="setup-title">Set Your Profile</h3>
+
+        </div>
+
+        <div class="profile-grid">
+          <div class="field-group">
+            <label for="birthYear" class="birth-label">Year of Birth</label>
+            <div class="select-wrap">
+              <select id="birthYear" class="premium-select">
+                <option value="">Select</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="birthMonth" class="birth-label">Month of Birth</label>
+            <div class="select-wrap">
+              <select id="birthMonth" class="premium-select">
+                <option value="">Select</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-group">
+          <label class="status-title">Relationship Status</label>
+          <div class="status-options">
+            <label class="status-pill">
+              <input type="radio" name="relationshipStatus" value="single" />
+              <span>Single</span>
+            </label>
+
+            <label class="status-pill">
+              <input type="radio" name="relationshipStatus" value="married" />
+              <span>Rs / Married</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setup-actions">
+          <button id="confirmProfileBtn" class="confirm-btn" disabled>
+            Confirm
+          </button>
+        </div>
+      </section>
+
+      <section class="stage-card glass-card hidden-step" id="bowlStep">
         <div class="stage-label">Fortune Bowl Spinner</div>
 
         <div class="scene">
@@ -771,58 +1093,78 @@
 
     document.documentElement.style.setProperty("--reveal-image", `url("${MONT_LONE_IMAGE}")`);
 
-    const fortunes = [
-      "မနက်ဖြန် မင်းမျက်နှာမှာ ဝက်ခြံအကြီးကြီးတစ်လုံး ထွက်လာပါလိမ့်မယ်။",
-      "ဒီနေ့ မုန့်လုံးရေပေါ်မစားပါနဲ့။ အထဲမှာ ထန်းလျက်အစား ငရုတ်သီးစိမ်း ပါလာပါလိမ့်မယ်။",
-      "သင့်ရဲ့ ဖူးစာရှင်က သင့်အနားမှာပဲ ရှိနေပါတယ်။",
-      "ဝင်လာသမျှငွေတွေက အွန်လိုင်းကနေ မုန့်တွေမှာ စားရင်းနဲ့ ပဲ ကုန်နေပါလိမ့်မယ်။",
-      "ပျောက်ဆုံးနေတဲ့ အရာတစ်ခုကို မကြာခင် ပြန်တွေ့ပါလိမ့်မယ်။",
-      "ဒီနှစ်ထဲမှာ သင့်ရည်းစားဟောင်းကို အမှတ်မထင်ပြန်တွေ့ရကိန်းရှိပါတယ်။",
-      "နောက်သုံးလအတွင်း ကံဇာတာတက်ကိန်းရှိပါတယ် ကြိုက်နေတဲ့ သူရှိရင် အခုပဲ ဖွင့်ပြောလိုက်ပါ။",
-      "ဒီလကုန် သင်ထီ‌ပေါက်ပါလိမ့်မယ်။",
-      "မင်းရဲ့ အနာဂတ်မှာ မင်းရဲ့ Ex က မင်းရဲ့ Boss အဖြစ်နဲ့ ရုံးကို ရောက်လာပါလိမ့်မယ်။",
-      "မနက်ဖြန်အစားစားပြီးရင် သေချာပလုတ်ကျင်းပါ။ သွားကြားမှာ ဟင်းရွက်ဖတ်ကြီးကပ်နေပါလိမ့်မယ်။",
-      "ဒီအပတ်အတွင်း ph အသစ်တစ်လုံးလဲရပါလိမ့်မယ်။",
-      "စိန်တုံးကြီး တစ်တုံးကို လမ်းဘေးတွင် ကောက်ရလိမ့်မည်။",
-      "သင့်ထံသို့ အတိတ်ဘဝက အကြွေးဟောင်းများ ပြန်ရောက်လာလိမ့်မည်။",
-      "နောင် ၅ နှစ်တွင် ကမ္ဘာကျော် ရုပ်ရှင်သရုပ်ဆောင် ဖြစ်လာလိမ့်မည်။",
-      "မင်းဟာ \"အမှိုက်ကောက်ရင်း စိန်တွေ့မယ့်\" ကံရှိပါတယ်။",
-      "နောက် ၂ နှစ်အတွင်း မင်းရဲ့ အနာဂတ်အိမ်ထောင်ဖက်ဟာ နိုင်ငံခြားသား သူဌေးကြီး ဖြစ်လိမ့်မယ်။",
-      "နောက် ၅ နှစ်နေရင် မင်းဟာ ကမ္ဘာ့အချမ်းသာဆုံးစာရင်း ထဲ ပါလာလိမ့်မယ်။",
-      "ငွေဝင်ကြမ်းမယ်၊ ဒါပေမယ့် ထွက်တာလည်းမြန်မယ်။",
-      "နောက်လကျ ပါးချိုင့်နဲ့ ကောင်လေးတစ်ယောက် လာကြိုက်ပါလိမ့်မယ်။",
-      "နှလုံးသား‌ရေးရာမှာ ပထမနေရာကနေ ဒုတိယဆု ရပါလိမ့်မယ်။",
-      "ဒီနှစ်ထဲမှာ သင်ကတုံး တုံးရနိုင်ခြေရှိပါတယ်။",
-      "မနက်ဖြန် အပြင်မထွက်ပါနဲ့။ မင်းရဲ့ ဘောင်းဘီ ဖင်ပြဲပါလိမ့်မယ်။",
-      "နောက် ၂ နှစ်အတွင်း သင် ကမ္ဘာပတ်ရလိမ့်မယ်။",
-      "မနက်ဖြန် သင် အပြင်သွားရင် လမ်းမှာ ဖိနပ်ပြတ်လိမ့်မယ်။",
-      "မျက်မှန်နဲ့ ချစ်စရာကောင်မလေးတစ်ယောက်က သင့်ကိုကြွေနေပါတယ်။",
-      "မနက်ဖြန် သင်အပြင်သွားရင် သင့် Ex နဲ့ လမ်းမှာ ပက်ပင်းတိုးလိမ့်မယ်။",
-      "သင် ပေါင်၅၀ ဝိတ်တက်နိုင်ချေရှိပါတယ်။",
-      "သင့်ရဲ့ အနာဂတ်မှာ \"အရမ်းချမ်းသာတဲ့ လူစိမ်းတစ်ယောက်က သင့်ကို သူ့အမွေတွေ လွှဲပေးလိမ့်မယ်။\"",
-      "နောက် ၃ ရက်အတွင်း သင်အကြိုက်ဆုံး အင်္ကျီမှာ \"ဟင်းရည်စွန်းမယ့်\" ကိန်းရှိပါတယ်။",
-      "သင် အချိုရည်သောက်ရင်း i phone 17 Pro Max ကံထူးဖို့ရှိပါတယ်။",
-      "သင် သိန်း၅၀၀ ကံထူးဖို့ ရှိပါတယ်။",
-      "သင် နောက် ၃ နှစ်နေရင် TikTok မှာ Followers ၁ သန်း ရလိမ့်မယ်။",
-      "ဒီ နှစ်ထဲမှာ သင့် ရည်းစားဦး က \"မင်္ဂလာဆောင်ဖိတ်စာ\" လာပေးဖို့ ဖုန်းဆက်ပါလိမ့်မယ်။",
-      "သင့် ကို လူတစ်ယောက်က အရမ်းလွမ်းနေပါတယ်။",
-      "လမ်းလျှောက်နေစဥ် ခွေးလိုက်ဆွဲ ခံရနိုင်ကိန်းရှိပါတယ်။ အများကြီးသတိထားပါနော်။",
-      "ဒီနှစ် သင်္ကြန်မှာ မုန့်လုံးရေပေါ်စားရင်းနဲ့ ငရုတ်သီးစိမ်း များ ၅ ခုလောက်ဆက်တိုက် ကိုက်ရနိုင်ပါတယ်။",
-      "သင် စိတ်ဝင်စားနေတဲ့ လူတစ်ယောက်ကလည်း သင့်ကို ပြန်စိတ်ဝင်စားနေပါတယ်။",
-      "သင် အသက် ၃၀ လောက်မှာ ကလေးဆယ်ယောက်နဲ့ ဖြစ်နေမှာပါ",
-      "ဒီတခေါက် Assignment မှာ AI 100% ထိနိုင်ခြေရှိပါတယ်။ ဖြစ်နိုင်ခြေ အလွန်မြင့်နေတယ်နော်။",
-      "သင် အလန်းဆုံးပြင်ထားတဲ့နေ့မှာတင် \"မိုးသည်းသည်းမည်းမည်း ရွာပြီး\" ရေစိုမယ့် ဘေးရှိပါတယ်။",
-      "သင့်ရဲ့ အနာဂတ်မှာ \"အချစ်\" ထက် \"ဗိုက်ခေါက်\" က သင့်ဆီကို ပိုမြန်မြန် ရောက်လာပါလိမ့်မယ်။",
-      "သင့် Crush က \"သူ့ Crush အကြောင်း\" တိုင်ပင်ဖို့ သင့်ကို စကားလာပြောလိမ့်မယ်။",
-      "Assignment‌ တွေအားလုံး မှာ plagiarism 50% မိနိုင်ခြေရှိပါတယ်။",
-      "လမ်းသွားရင် သတိထားသွားပါ။ ခွေးချေးတက်နင်းမိပါလိမ့်မယ်။",
-      "မင်းရဲ့ အနာဂတ်မှာ မင်းရဲ့ Fake Account ကို မင်းအမေ တွေ့သွားပြီး \"Follow\" လာလုပ်ပါလိမ့်မယ်။",
-      "ဒီနှစ်ထဲမှာ စိတ်ဝင်စားနေတဲ့ လူအရှေ့မှာ သင် တလွဲတွေ လုပ်ဖြစ်နေပါလိမ့်မယ်။",
-      "သင့် ဖြစ်ချင်တဲ့ ဆန္ဒတစ်ခုကို ဖြစ်အောင်ဖြည့်ဆည်းပေးနိုင်မယ် လူတစ်ယောက် မကြာခင် အနားနားကို ရောက်လာပါလိမ့်မယ်။",
-      "သင်သည် လာမယ့် semister မှာ ဘာသာရပ် အားလုံး ဂုဏ်ထူးထွက် ပါလိမ့်မယ်။",
-      "ကံကောင်းခြင်းတွေက ဒီနှစ်တော့ သင့်ဆီကို ဆိုက်ဆိုက်မြိုက်မြိုက်ရောက်လာ ပါမယ်။ ဒါပေမဲ့ အဖော်မဲ့နေတဲ့ သူလေးတွေအတွက်တော့ မပါသေးပါဘူး။",
-      "ဒီနှစ်ထဲမှာ အရုပ်ကောက်ရင်း မွဲကိန်းရှိပါတယ်။"
-    ];
+    const fortuneSections = {
+      general: [
+        "သင်္ကြန်အတွင်း မင်းမျက်နှာမှာ ဝက်ခြံအကြီးကြီးတစ်လုံး ထွက်လာပါလိမ့်မယ်။",
+        "မုန့်လုံးရေပေါ်စားရင် ငရုတ်သီးမိနိုင်ခြေများပါတယ်။",
+        "ဒီနှစ်ဝင်လာသမျှငွေတွေကတော့ Online shopping နဲ့ မုန့်တွေမှာပဲ ကုန်နေပါလိမ့်မယ်။",
+        "ပျောက်ဆုံးနေတဲ့ အရာတစ်ခုကို မကြာခင် ပြန်တွေ့ပါလိမ့်မယ်။",
+        "ဒီလကုန် ထီ‌ပေါက်ပါလိမ့်မယ်။",
+        "Phone အသစ်လဲရပါလိမ့်မယ်။",
+        "စိန်တလုံး လမ်းဘေးတွင် ကောက်ရလိမ့်မည်။ မှတ်ချက်/သရက်သီး",
+        "သင့်ထံသို့ အတိတ်ဘဝက အကြွေးဟောင်းများ ပြန်ရောက်လာလိမ့်မည်။",
+        "အမှိုက်ကောက်ရင်း ပိုက်ဆံ ကောက်ရမည်။",
+        "ဒီနှစ်ထဲ ငွေရွှင်မည်",
+        "ငွေအဝင်ကြမ်းမယ်၊ ဒါပေမယ့် ထွက်တာလည်းမြန်မယ်။",
+        "ဒီနှစ်ထဲမှာ သင်ကတုံး တုံးရနိုင်ခြေရှိပါတယ်။",
+        "သင်္ကြန် အပြင်သွားရင် သတိထားပါ။ ဘောင်းဘီဂွပြဲ နိုင်တယ်",
+        "ဒီနှစ်အတွင်း သင်နိုင်ငံခြား သွားရလိမ့်မယ်။",
+        "နောက်နေ့ အပြင်သွားရင် လမ်းမှာ ဖိနပ်ပြတ်နိုင်တယ်။",
+        "သင် ပေါင်၅၀ ဝိတ်တက်လာမယ်။",
+        "ငွေကြေး ချေးငှားတာတတ်နိင်သလောက်ရှောင်ပါ။ ကြွေးဆုံးနိုင်သည်။",
+        "အချိုရည်သောက်ရင်း IPhone 17 Pro Max မဲပေါက်မည်။",
+        "သင် သိန်း၅၀၀ ကံထူးဖို့ ရှိပါတယ်။",
+        "ခွေးလိုက်ဆွဲ ခံရနိုင်ကိန်းရှိပါတယ်။ အများကြီးသတိထားပါနော်။",
+        "သင်္ကြန်မှာ မုန့်လုံးရေပေါ်စားရင်း ငပိနဲ့ ငရုတ်သီးစိမ်း မိလိမ့်မယ်။",
+        "လမ်းသွားရင်း ခွေးချေးတက်နင်းမိပါလိမ့်မယ်။",
+        "ဒီနှစ် သင်အဖြစ်ချင်ဆုံး ဆန္ဒတွေ ဖြစ်လာလိမ့်မယ်။",
+        "Assignment‌ တွေမှာ plagiarism 50% မိနိုင်ခြေရှိပါတယ်။",
+      ],
+      single: [
+        "သင့်ရဲ့ ဖူးစာရှင်က သင့်အနားမှာပဲ ရှိနေပါတယ်။",
+        "ကံဇာတာတက်ကိန်းရှိပါတယ် ကြိုက်နေတဲ့ သူရှိရင် အခုပဲ ဖွင့်ပြောလိုက်ပါ။",
+        "မင်းရဲ့ အနာဂတ်အိမ်ထောင်ဖက်ဟာ သူဌေးကြီးပါ။",
+        "ပါးချိုင့်နဲ့ ကောင်လေးတစ်ယောက် လာကြိုက်ပါလိမ့်မယ်။",
+        "မျက်မှန်နဲ့ ချစ်စရာကောင်မလေးတစ်ယောက်က သင့်ကို Crush နေပါတယ်။",
+        "သင့် ကို လူတစ်ယောက်က အရမ်းလွမ်းနေပါတယ်။",
+        "သင် စိတ်ဝင်စားနေတဲ့သူက သင့်ကိုလဲ ပြန်စိတ်ဝင်စားနေတာပါ။",
+        "သင့် Crush က \"သူ့ Crush အကြောင်း\" လာတိုင်ပင်လိမ့်မယ်။",
+        "စိတ်ဝင်စားနေတဲ့ လူအရှေ့မှာ တလွဲတွေကြီး လုပ်ဖြစ်နေပါလိမ့်မယ်။",
+        "ကံကောင်းခြင်းတွေက ဒီနှစ်တော့ သင့်ဆီကို ဆိုက်ဆိုက်မြိုက်မြိုက်ရောက်လာ ပါမယ်။ ရည်းစားဟောင်းတော့မပါ။",
+        "ဒီနှစ်လဲ Single ပါဘဲ။ မကျွတ်လွတ်နိုင်သေးပါဘူး။",
+        "ဒီ နှစ်ထဲမှာ သင့် ရည်းစားဦး က \"မင်္ဂလာဆောင်ဖိတ်စာ\" လာပေးဖို့ ဖုန်းဆက်ပါလိမ့်မယ်။"
+      ],
+      married: [
+        "သင့်ရည်းစားဟောင်းကို အမှတ်မထင်ပြန်တွေ့ရကိန်းရှိပါတယ်။",
+        "သင်တို့ Couple အပြင်သွားနေရင်း သင့် Ex နဲ့ လမ်းမှာ တိုးလိမ့်မယ်။",
+        "ဒီ နှစ်ထဲမှာ သင့် ရည်းစားဦး က \"မင်္ဂလာဆောင်ဖိတ်စာ\" လာပေးဖို့ ဖုန်းဆက်ပါလိမ့်မယ်။",
+        "ရည်းစားက စိတ်ဆိုးစိတ်ကောက်တာတွေ ပိုများလာမယ်။",
+        "နှစ်ဦးကြားမှာ နားလည်မှုတွေပိုတိုးလာမှာပါ"
+      ],
+      under30: [
+        "ဒီနှစ် TikTok မှာ Followers ၁ သန်း ရလိမ့်မယ်။",
+        "ဒီတခေါက် Assignment မှာ AI 100% ထိနိုင်ခြေရှိပါတယ်။ ဖြစ်နိုင်ခြေ အလွန်မြင့်နေတယ်နော်။",
+        "Assignment‌ တွေအားလုံး မှာ plagiarism 50% မိနိုင်ခြေရှိပါတယ်။",
+        "သင်ရဲ့ ္ Facebook Account ကို မင်းအမေ တွေ့သွားပြီး \"Follow\" လာလုပ်ပါလိမ့်မယ်။",
+        "လာမယ့် semister မှာ ဘာသာရပ် အားလုံး ဂုဏ်ထူးထွက် ပါလိမ့်မယ်။",
+        "ဒီနှစ်ထဲမှာ အရုပ်ကောက်ရင်း မွဲကိန်းရှိပါတယ်။",
+        "သင် အသက် ၃၀ လောက်မှာ ကလေးဆယ်ယောက်နဲ့ ဖြစ်နေမှာပါ"
+      ],
+      over30: [
+        "သင့်ရဲ့ အနာဂတ်မှာ \"အချစ်\" ထက် \"ဗိုက်ခေါက်\" က သင့်ဆီကို ပိုမြန်မြန် ရောက်လာပါလိမ့်မယ်။",
+        "ဒီနှစ်ထဲ ရာထူးတို့းဖို့ရှိတယ်။",
+        "မင်းရဲ့ Ex က မင်းရဲ့ Boss အဖြစ်နဲ့ ရုံးကို ရောက်လာပါလိမ့်မယ်။",
+        "နှစ်သစ်မှာ အခွင့်လန်းသစ်တွေ အများကြီး စောင်ကြိုနေပါတယ်။",
+        "ဒီနှစ် ငွေရေးကြေးရေးပိုပြီး တည်ငြိမ်လာပါမယ်။",
+        "ငွေကြေး ချေးငှားတာ ရှောင်ပါ။ ကြွေးဆုံးနိုင်သည်။",
+      ]
+    };
+
+    const setupStep = document.getElementById("setupStep");
+    const bowlStep = document.getElementById("bowlStep");
+    const confirmProfileBtn = document.getElementById("confirmProfileBtn");
+    const birthYearEl = document.getElementById("birthYear");
+    const birthMonthEl = document.getElementById("birthMonth");
 
     const currentLayer = document.getElementById("currentLayer");
     const nextLayer = document.getElementById("nextLayer");
@@ -844,6 +1186,7 @@
     let currentIndex = 0;
     let rippleInterval = null;
     let flowerInterval = null;
+    let profileConfirmed = false;
     const assetCache = new Map();
 
     const bubbleSynth = window.Tone ? new Tone.MembraneSynth({
@@ -852,6 +1195,16 @@
       oscillator: { type: "sine" }
     }).toDestination() : null;
 
+    function populateBirthYears() {
+      const currentYear = new Date().getFullYear();
+      for (let year = currentYear; year >= 1960; year--) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        birthYearEl.appendChild(option);
+      }
+    }
+
     function playBubbleSound() {
       if (!bubbleSynth || !window.Tone) return;
       try {
@@ -859,7 +1212,7 @@
         bubbleSynth.triggerAttackRelease("C4", "32n", now);
         bubbleSynth.triggerAttackRelease("E4", "32n", now + 0.08);
         bubbleSynth.triggerAttackRelease("G4", "32n", now + 0.16);
-      } catch {}
+      } catch { }
     }
 
     function preloadImage(url) {
@@ -867,7 +1220,7 @@
         const img = new Image();
         img.decoding = "async";
         img.onload = async () => {
-          try { await img.decode?.(); } catch {}
+          try { await img.decode?.(); } catch { }
           assetCache.set(url, img);
           resolve(img);
         };
@@ -944,6 +1297,90 @@
       }, 900);
     }
 
+    function getRelationshipStatus() {
+      const checked = document.querySelector('input[name="relationshipStatus"]:checked');
+      return checked ? checked.value : null;
+    }
+
+    function getBirthYear() {
+      const value = birthYearEl?.value.trim();
+      return value ? Number(value) : null;
+    }
+
+    function getBirthMonth() {
+      const value = birthMonthEl?.value;
+      return value ? Number(value) : null;
+    }
+
+    function isProfileValid() {
+      return !!(getBirthYear() && getBirthMonth() && getRelationshipStatus());
+    }
+
+    function updateConfirmButtonState() {
+      confirmProfileBtn.disabled = !isProfileValid();
+    }
+
+    function getUserProfile() {
+      return {
+        birthYear: getBirthYear(),
+        birthMonth: getBirthMonth(),
+        relationshipStatus: getRelationshipStatus()
+      };
+    }
+
+    function getAgeFromBirthYear(birthYear) {
+      if (!birthYear) return null;
+      return new Date().getFullYear() - birthYear;
+    }
+
+    function getAgeCategory(age) {
+      if (age === null) return null;
+      return age < 30 ? "under30" : "over30";
+    }
+
+    function getEligibleFortunes(profile) {
+      const pool = [...fortuneSections.general];
+
+      if (profile.relationshipStatus === "single") {
+        pool.push(...fortuneSections.single);
+      }
+
+      if (profile.relationshipStatus === "married") {
+        pool.push(...fortuneSections.married);
+      }
+
+      const age = getAgeFromBirthYear(profile.birthYear);
+      const ageCategory = getAgeCategory(age);
+
+      if (ageCategory === "under30") {
+        pool.push(...fortuneSections.under30);
+      }
+
+      if (ageCategory === "over30") {
+        pool.push(...fortuneSections.over30);
+      }
+
+      return pool;
+    }
+
+    function getRandomFortune(profile) {
+      const eligibleFortunes = getEligibleFortunes(profile);
+      if (!eligibleFortunes.length) {
+        return "ကံကြမ္မာ message မရှိသေးပါ။ Fortune data ထည့်ပေးပါ။";
+      }
+      return eligibleFortunes[Math.floor(Math.random() * eligibleFortunes.length)];
+    }
+
+    function revealBowlStep() {
+      if (!isProfileValid()) return;
+
+      profileConfirmed = true;
+      setupStep.classList.add("hidden-step");
+      bowlStep.classList.remove("hidden-step");
+      bowlStep.classList.add("step-fade");
+      setTimeout(() => bowlStep.classList.remove("step-fade"), 500);
+    }
+
     function getRandomBowlIndex() {
       return Math.floor(Math.random() * BOWL_IMAGES.length);
     }
@@ -986,7 +1423,7 @@
     }
 
     async function handleSpin() {
-      if (isSpinning || spinBtn.disabled) return;
+      if (!profileConfirmed || isSpinning || spinBtn.disabled) return;
       isSpinning = true;
 
       spinBtn.classList.remove("pulse-ring");
@@ -994,7 +1431,7 @@
       spinBtn.classList.add("is-loading");
 
       if (window.Tone) {
-        try { await Tone.start(); } catch {}
+        try { await Tone.start(); } catch { }
       }
 
       const totalBowls = BOWL_IMAGES.length;
@@ -1048,7 +1485,9 @@
     }
 
     function showModal() {
-      const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+      const profile = getUserProfile();
+      const randomFortune = getRandomFortune(profile);
+
       destinyText.textContent = `“${randomFortune}”`;
 
       modalOverlay.classList.add("active");
@@ -1117,12 +1556,22 @@
       }, 1800);
     }
 
+    birthYearEl.addEventListener("change", updateConfirmButtonState);
+    birthMonthEl.addEventListener("change", updateConfirmButtonState);
+    document.querySelectorAll('input[name="relationshipStatus"]').forEach((radio) => {
+      radio.addEventListener("change", updateConfirmButtonState);
+    });
+
+    confirmProfileBtn.addEventListener("click", revealBowlStep);
     spinBtn.addEventListener("click", handleSpin);
     rerollBtn.addEventListener("click", resetApp);
     modalOverlay.addEventListener("click", resetApp);
     shareBtn.addEventListener("click", shareBlessing);
 
     window.addEventListener("load", async () => {
+      populateBirthYears();
+      updateConfirmButtonState();
+
       spinBtn.disabled = true;
       btnText.textContent = "PREPARING BOWLS...";
       spinBtn.classList.remove("pulse-ring");
